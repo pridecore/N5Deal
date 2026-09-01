@@ -44,8 +44,8 @@ export default async function MarketplacePage({ searchParams }: { searchParams: 
         </div>
       </div>
       <nav aria-label="Marketplace categories" className="mt-5 flex overflow-x-auto border border-[#d8e1dd] bg-white">
-        <Link href={categoryHref(filters)} aria-current={!filters.category ? "page" : undefined} className={`focus-ring shrink-0 border-r border-[#d8e1dd] px-4 py-2.5 text-xs font-semibold ${!filters.category ? "bg-[#084c3c] text-white" : "text-[#52615c] hover:bg-[#eef3f0]"}`}>All <span className="ml-1 opacity-65">{pagination.total}</span></Link>
-        {assetCategories.filter((category) => category !== "OTHER").map((category) => <Link key={category} href={categoryHref(filters, category)} aria-current={filters.category === category ? "page" : undefined} className={`focus-ring shrink-0 border-r border-[#d8e1dd] px-4 py-2.5 text-xs font-semibold last:border-0 ${filters.category === category ? "bg-[#084c3c] text-white" : "text-[#52615c] hover:bg-[#eef3f0]"}`}>{labelize(category)}</Link>)}
+        <Link href={categoryHref(filters)} aria-current={!filters.category ? "page" : undefined} className={`focus-ring category-tab shrink-0 border-r border-[#d8e1dd] px-4 py-2.5 text-xs font-semibold ${!filters.category ? "category-tab-active" : ""}`}>All <span className="ml-1 opacity-65">{pagination.total}</span></Link>
+        {assetCategories.filter((category) => category !== "OTHER").map((category) => <Link key={category} href={categoryHref(filters, category)} aria-current={filters.category === category ? "page" : undefined} className={`focus-ring category-tab shrink-0 border-r border-[#d8e1dd] px-4 py-2.5 text-xs font-semibold last:border-0 ${filters.category === category ? "category-tab-active" : ""}`}>{labelize(category)}</Link>)}
       </nav>
     </div>
     <div className="mt-5 grid gap-5 xl:grid-cols-[270px_1fr] xl:items-start">

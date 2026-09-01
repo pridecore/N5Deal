@@ -103,6 +103,25 @@ textarea.field-line { height: auto; min-height: 8.5rem; }
 .ledger-row:hover { border-color: #9eb2aa; box-shadow: 0 4px 14px rgba(16, 24, 22, .045); }
 .price-figure { font-size: clamp(1.75rem, 3vw, 2.55rem); line-height: 1; letter-spacing: 0; font-weight: 750; color: var(--ink); }
 .section-kicker { display: flex; align-items: end; justify-content: space-between; gap: 1rem; border-bottom: 1px solid var(--line); padding-bottom: .65rem; }
+.category-tab {
+  color: var(--ink-soft);
+  transition: background-color .16s ease, color .16s ease;
+}
+.category-tab:hover {
+  background: var(--surface-muted);
+  color: var(--ink);
+}
+.category-tab-active {
+  background: var(--accent-strong);
+  color: #fff !important;
+}
+.category-tab-active * {
+  color: #fff !important;
+}
+.category-tab-active:hover {
+  background: var(--accent);
+  color: #fff !important;
+}
 .fine-grid { display: none; }
 .noise { position: relative; }
 .noise::after { display: none; }
