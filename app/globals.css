@@ -1,22 +1,24 @@
 @import "tailwindcss";
 
 :root {
-  --paper: #f4f1ea;
-  --paper-deep: #e8e2d8;
-  --surface: #fbfaf6;
-  --surface-muted: #eee8dc;
-  --ink: #172532;
-  --ink-soft: #50606a;
-  --ink-muted: #7a817f;
-  --line: #d9d4c9;
-  --line-strong: #bab8ae;
-  --copper: #b7653b;
-  --copper-light: #d49a79;
-  --mint: #d7e3dc;
-  --success: #4f725f;
-  --success-bg: #edf4ef;
+  --paper: #f3f0e8;
+  --paper-deep: #e3ddd1;
+  --surface: #fffefa;
+  --surface-muted: #f1ece2;
+  --ink: #111a22;
+  --ink-soft: #485862;
+  --ink-muted: #737a78;
+  --line: #d6d0c4;
+  --line-strong: #b6b0a3;
+  --copper: #a85834;
+  --copper-light: #cf8b65;
+  --mint: #d9e7df;
+  --success: #416f58;
+  --success-bg: #edf6f1;
+  --warning: #8b6435;
+  --warning-bg: #f8eddc;
   --radius-card: 2px;
-  --shadow-market: 0 18px 55px rgba(23, 37, 50, .07);
+  --shadow-market: 0 14px 40px rgba(17, 26, 34, .06);
 }
 
 * { box-sizing: border-box; }
@@ -33,10 +35,10 @@ button, input, textarea, select { font: inherit; }
 
 .display { font-family: Georgia, "Times New Roman", serif; }
 .eyebrow { color: var(--copper); font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
-.market-shell { position: relative; margin-inline: auto; width: 100%; max-width: 1320px; padding: 2rem 1.25rem; }
-.deal-shell { position: relative; margin-inline: auto; width: 100%; max-width: 1180px; padding: 2rem 1.25rem; }
-.compact-heading { font-size: clamp(2.35rem, 4.6vw, 4.5rem); line-height: .92; letter-spacing: -.055em; }
-.market-panel { border: 1px solid var(--line); background: rgba(251, 250, 246, .78); box-shadow: var(--shadow-market); }
+.market-shell { position: relative; margin-inline: auto; width: 100%; max-width: 1360px; padding: 1.5rem 1rem; }
+.deal-shell { position: relative; margin-inline: auto; width: 100%; max-width: 1180px; padding: 1.5rem 1rem; }
+.compact-heading { font-size: clamp(2rem, 3.9vw, 3.8rem); line-height: .96; letter-spacing: -.045em; }
+.market-panel { border: 1px solid var(--line); background: rgba(255, 254, 250, .9); box-shadow: var(--shadow-market); }
 .market-rule { border-color: var(--line); }
 .field-line { height: 2.75rem; width: 100%; border: 0; border-bottom: 1px solid var(--line-strong); background: transparent; color: var(--ink); font-size: .875rem; outline: none; }
 .field-line::placeholder { color: #9a9d96; }
@@ -50,10 +52,17 @@ textarea.field-line { height: auto; min-height: 8.5rem; }
 .deal-badge { display: inline-flex; align-items: center; border: 1px solid var(--line); background: rgba(251, 250, 246, .72); padding: .35rem .55rem; color: var(--ink-soft); font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
 .status-live { border-color: rgba(79, 114, 95, .36); background: var(--success-bg); color: var(--success); }
 .status-muted { color: #8b7569; }
+.status-warning { border-color: rgba(139, 100, 53, .32); background: var(--warning-bg); color: var(--warning); }
 .stat-label { color: var(--ink-muted); font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
 .stat-value { color: var(--ink); font-weight: 700; }
+.data-cell { background: var(--surface); padding: .85rem; }
+.data-grid { display: grid; gap: 1px; border: 1px solid var(--line); background: var(--line); }
+.ledger-row { border: 1px solid var(--line); background: var(--surface); transition: border-color .18s ease, background-color .18s ease; }
+.ledger-row:hover { border-color: var(--copper); background: #fff; }
+.price-figure { font-size: clamp(1.6rem, 3vw, 2.7rem); line-height: .95; letter-spacing: -.035em; font-weight: 800; color: var(--ink); }
+.section-kicker { display: flex; align-items: center; justify-content: space-between; gap: 1rem; border-bottom: 1px solid var(--line); padding-bottom: .75rem; }
 .fine-grid {
-  background-image: linear-gradient(to right, rgba(23,37,50,.035) 1px, transparent 1px), linear-gradient(to bottom, rgba(23,37,50,.035) 1px, transparent 1px);
+  background-image: linear-gradient(to right, rgba(17,26,34,.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(17,26,34,.03) 1px, transparent 1px);
   background-size: 32px 32px;
 }
 .noise { position: relative; }
@@ -74,13 +83,13 @@ textarea.field-line { height: auto; min-height: 8.5rem; }
 .skip-link:focus { transform: translateY(0); }
 
 @media (min-width: 640px) {
-  .market-shell { padding: 3rem 2rem; }
-  .deal-shell { padding: 3rem 2rem; }
+  .market-shell { padding: 2.25rem 2rem; }
+  .deal-shell { padding: 2.25rem 2rem; }
 }
 
 @media (min-width: 1024px) {
-  .market-shell { padding: 4rem 3.5rem; }
-  .deal-shell { padding: 4rem 3.5rem; }
+  .market-shell { padding: 3rem 3rem; }
+  .deal-shell { padding: 3rem 3rem; }
 }
 
 @media (prefers-reduced-motion: no-preference) {
