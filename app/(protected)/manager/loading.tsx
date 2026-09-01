@@ -1,3 +1,3 @@
 export default function LoadingManager() {
-  return <div className="min-h-screen bg-[#f4f1ea] px-8 py-16 text-sm text-[#50606a]">Loading operations console...</div>;
+  return <div className="market-shell min-h-screen animate-pulse"><div className="h-20 max-w-[560px] bg-[#e5ece8]" /><div className="mt-6 h-24 border border-[#d8e1dd] bg-white" /><div className="mt-8 h-96 border border-[#d8e1dd] bg-white" /></div>;
 }

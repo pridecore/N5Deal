@@ -14,11 +14,11 @@ async function login(page: Page, role: "Buyer" | "Seller") {
 test("buyer can browse, filter, and open an opportunity", async ({ page }) => {
   await login(page, "Buyer");
   await page.goto("/marketplace");
-  await expect(page.getByText("Find the")).toBeVisible();
+  await expect(page.getByRole("heading", { name: /Financial businesses and regulated asset opportunities/ })).toBeVisible();
   await page.getByLabel("Category").selectOption("FINTECH");
   await page.getByRole("button", { name: "Apply filters" }).click();
   await expect(page).toHaveURL(/category=FINTECH/);
-  const firstOpportunity = page.getByRole("link", { name: /View opportunity/ }).first();
+  const firstOpportunity = page.getByRole("link", { name: /View asset/ }).first();
   await expect(firstOpportunity).toBeVisible();
   await Promise.all([page.waitForURL(/\/assets\//, { timeout: submitTimeout }), firstOpportunity.click()]);
   await expect(page.getByText("Opportunity brief")).toBeVisible({ timeout: submitTimeout });
@@ -38,7 +38,7 @@ test("seller can create, edit, publish, and find an asset", async ({ page }) => 
     page.getByRole("button", { name: "Save draft" }).click(),
   ]);
   await expect(page.getByText(title)).toBeVisible({ timeout: submitTimeout });
-  await page.locator("article").filter({ hasText: title }).getByRole("link", { name: "Manage asset ↗" }).click();
+  await page.locator("article").filter({ hasText: title }).getByRole("link", { name: "Manage asset →" }).click();
   await page.getByLabel("Business overview").fill("An updated regulated payments platform with strong retention and clear room for a strategic owner.");
   await Promise.all([
     page.waitForURL(/\/seller\/assets$/, { timeout: submitTimeout }),
@@ -46,7 +46,7 @@ test("seller can create, edit, publish, and find an asset", async ({ page }) => 
   ]);
   const createdAsset = page.locator("article").filter({ hasText: title }).locator("xpath=..");
   const publishResponse = page.waitForResponse((response) => response.url().includes("/api/v1/assets/") && response.url().endsWith("/publish") && response.request().method() === "POST", { timeout: submitTimeout });
-  await createdAsset.getByRole("button", { name: "Publish ↗" }).click();
+  await createdAsset.getByRole("button", { name: "Publish" }).click();
   expect((await publishResponse).ok()).toBe(true);
   await expect(page.locator("article").filter({ hasText: title }).getByText("Published")).toBeVisible({ timeout: submitTimeout });
   await page.goto(`/marketplace?search=${encodeURIComponent(title)}`);

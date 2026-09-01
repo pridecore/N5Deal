@@ -20,8 +20,8 @@ export function MessageComposer({ conversationId }: { conversationId: string }) 
     router.refresh();
   }
 
-  return <form onSubmit={submit} className="border-t border-[#d9d4c9] bg-[#e8e2d8]/45 p-5">
-    <label className="block"><span className="mb-2 block text-[10px] font-bold uppercase tracking-[.14em] text-[#7a817f]">Reply</span><textarea value={body} onChange={(event) => setBody(event.target.value)} rows={3} maxLength={2000} placeholder="Write a concise platform message" className="focus-ring w-full resize-none border border-[#d9d4c9] bg-[#f8f6f1] p-3 text-sm outline-none focus:border-[#b7653b]" /></label>
-    <div className="mt-3 flex items-center justify-between gap-3"><p role={error ? "alert" : undefined} className="text-xs text-[#b7653b]">{error}</p><button type="submit" disabled={pending} className="focus-ring bg-[#172532] px-5 py-3 text-[10px] font-bold uppercase tracking-[.14em] text-[#f4f1ea] hover:bg-[#b7653b] disabled:opacity-60">{pending ? "Sending..." : "Send message"}</button></div>
+  return <form onSubmit={submit} className="border-t border-[#d8e1dd] bg-[#eef3f0] p-5">
+    <label className="block"><span className="mb-2 block stat-label">Reply to thread</span><textarea value={body} onChange={(event) => setBody(event.target.value)} rows={3} maxLength={2000} placeholder="Write a concise deal message" className="focus-ring field-line min-h-[96px] resize-y bg-white leading-6" /></label>
+    <div className="mt-3 flex items-center justify-between gap-3"><p role={error ? "alert" : undefined} className="text-xs text-[#a53d35]">{error}</p><button type="submit" disabled={pending} className="focus-ring action-primary h-10 px-5 text-[10px] font-bold uppercase tracking-[.08em] disabled:opacity-60">{pending ? "Sending…" : "Send message"}</button></div>
   </form>;
 }

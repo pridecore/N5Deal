@@ -23,8 +23,8 @@ export function ModerationActionButton({ endpoint, payload, label, tone = "dange
   }
 
   return <div className="inline-flex flex-col items-end gap-1">
-    <button type="button" onClick={run} disabled={pending} className={`focus-ring px-3 py-2 text-[10px] font-bold uppercase tracking-[.12em] ${tone === "restore" ? "border border-[#5f816d] text-[#5f816d]" : "border border-[#b7653b] text-[#b7653b]"} disabled:opacity-60`}>{pending ? "Working..." : confirming ? "Confirm" : label}</button>
-    {confirming && <button type="button" onClick={() => setConfirming(false)} className="text-[10px] uppercase tracking-[.12em] text-[#7a817f]">Cancel</button>}
-    {error && <p className="max-w-[160px] text-right text-[10px] text-[#b7653b]">{error}</p>}
+    <button type="button" onClick={run} disabled={pending} className={`focus-ring min-h-9 rounded-[3px] px-3 text-[10px] font-bold uppercase tracking-[.08em] ${tone === "restore" ? "border border-[#0d6b53] text-[#0d6b53] hover:bg-[#e7f3ee]" : "border border-[#a53d35] text-[#a53d35] hover:bg-[#fff0ee]"} disabled:opacity-60`}>{pending ? "Working..." : confirming ? "Confirm" : label}</button>
+    {confirming && <button type="button" onClick={() => setConfirming(false)} className="focus-ring min-h-8 text-[10px] uppercase tracking-[.08em] text-[#6b7873]">Cancel</button>}
+    {error && <p className="max-w-[160px] text-right text-[10px] text-[#a53d35]">{error}</p>}
   </div>;
 }

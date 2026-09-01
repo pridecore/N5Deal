@@ -21,13 +21,13 @@ test("buyer sees match scores, sorts by best match, contacts seller, and convers
   await expect(page).toHaveURL(/sort=best-match/);
   await Promise.all([
     page.waitForURL(/\/assets\//, { timeout: submitTimeout }),
-    page.getByRole("link", { name: /View opportunity/ }).first().click(),
+    page.getByRole("link", { name: /View asset/ }).first().click(),
   ]);
   await expect(page.getByText("Opportunity brief")).toBeVisible({ timeout: submitTimeout });
-  await page.getByLabel("Private platform message").fill("I would like to discuss this acquisition opportunity.");
+  await page.getByLabel("Private message").fill("I would like to discuss this acquisition opportunity.");
   await page.getByRole("button", { name: "Contact seller" }).click();
   await expect(page).toHaveURL(/messages\/.+/, { timeout: submitTimeout });
-  await page.getByLabel("Reply").fill(reply);
+  await page.getByLabel("Reply to thread").fill(reply);
   const replyResponse = page.waitForResponse((response) => response.url().includes("/api/v1/conversations/") && response.url().endsWith("/messages") && response.request().method() === "POST");
   await page.getByRole("button", { name: "Send message" }).click();
   expect((await replyResponse).ok()).toBe(true);
@@ -45,12 +45,12 @@ test("seller browses buyers, opens a profile, and contacts buyer", async ({ page
   await login(page, "Seller");
   const message = `We have a regulated fintech asset that may fit your thesis ${Date.now()}.`;
   await page.goto("/buyers");
-  await expect(page.getByText("Qualified acquisition demand.")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Qualified acquisition mandates" })).toBeVisible();
   await Promise.all([
     page.waitForURL(/\/buyers\/.+/, { timeout: submitTimeout }),
-    page.getByRole("link", { name: /View profile/ }).first().click(),
+    page.getByRole("link", { name: /View buyer mandate/ }).first().click(),
   ]);
-  await page.getByLabel("Message buyer").fill(message);
+  await page.getByLabel("Private message").fill(message);
   await page.getByRole("button", { name: "Contact buyer" }).click();
   await expect(page).toHaveURL(/messages\/.+/, { timeout: submitTimeout });
   await expect(page.getByText(message)).toBeVisible();
@@ -98,7 +98,7 @@ test("manager suspended asset disappears and seller cannot republish it", async 
   await page.reload();
   await expect(assetRow.getByText("Suspended")).toBeVisible();
   await page.goto("/marketplace?search=Orbit");
-  await expect(page.getByText("No matches")).toBeVisible();
+  await expect(page.getByText("No matching assets")).toBeVisible();
 
   const sellerContext = await browser.newContext();
   const loginResponse = await sellerContext.request.post("/api/v1/auth/login", { data: { email: "seller@n5deal.demo", password: "SellerDemo2025!" } });

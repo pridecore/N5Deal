@@ -1,44 +1,38 @@
 import { LoginForm } from "@/components/login-form";
 
+const marketRows = [
+  { label: "Regulated businesses", detail: "Bank, EMI, payment and fintech opportunities" },
+  { label: "Acquisition intelligence", detail: "Buyer criteria with deterministic Smart Match" },
+  { label: "Private deal workflow", detail: "Role-aware messaging, moderation and audit" },
+];
+
 export default function LoginPage() {
-  return (
-    <main className="noise min-h-screen overflow-hidden bg-[#f3f0e8]">
-      <div className="fine-grid absolute inset-0 opacity-60" aria-hidden="true" />
-      <div className="relative mx-auto grid min-h-screen max-w-[1440px] grid-cols-1 lg:grid-cols-[1fr_440px]">
-        <section className="relative flex min-h-[560px] flex-col px-6 py-6 sm:px-10 lg:min-h-screen lg:px-16 lg:py-10">
-          <div className="flex items-center justify-between gap-4 rise">
-            <div className="flex items-center gap-3"><span className="flex h-9 w-9 items-center justify-center bg-[#111a22] text-xs font-bold tracking-[-.08em] text-[#f3f0e8]">N5</span><span className="text-xs font-bold tracking-[.18em] text-[#111a22]">N5DEAL</span></div>
-            <span className="deal-badge status-live">Private marketplace</span>
+  return <main className="min-h-screen bg-[#f4f7f5] px-4 py-5 sm:px-6 sm:py-8">
+    <div className="mx-auto grid min-h-[calc(100vh-40px)] max-w-[1120px] overflow-hidden border border-[#d8e1dd] bg-white shadow-[0_16px_48px_rgba(16,24,22,.08)] lg:min-h-[680px] lg:grid-cols-[1fr_410px]">
+      <section className="flex flex-col px-6 py-6 sm:px-10 sm:py-8 lg:px-12 lg:py-10">
+        <header className="flex items-center justify-between gap-4 border-b border-[#d8e1dd] pb-5">
+          <div className="flex items-center gap-2.5"><span className="flex h-8 w-8 items-center justify-center rounded-[2px] bg-[#084c3c] text-[11px] font-extrabold text-white">N5</span><div><p className="text-[13px] font-extrabold tracking-[.08em]">N5DEAL</p><p className="mt-0.5 text-[8px] font-bold uppercase tracking-[.08em] text-[#6b7873]">Private market</p></div></div>
+          <span className="deal-badge status-live">Secure demo</span>
+        </header>
+        <div className="flex flex-1 flex-col justify-center py-8 lg:py-12">
+          <p className="eyebrow rise">Marketplace access</p>
+          <h1 className="display mt-3 max-w-[600px] text-[clamp(2rem,4.5vw,3.35rem)] leading-[1.04] text-[#101816] rise rise-delay">Financial opportunities, qualified counterparties, one private workspace.</h1>
+          <p className="mt-5 max-w-[580px] text-sm leading-6 text-[#52615c] rise rise-delay-2">Review structured M&A listings, acquisition criteria and private deal conversations through the Buyer, Seller or Manager demo role.</p>
+          <div className="mt-8 hidden border-y border-[#d8e1dd] sm:block rise rise-delay-2">
+            {marketRows.map((row, index) => <div key={row.label} className="grid gap-1 border-b border-[#e8eeeb] py-3.5 last:border-0 sm:grid-cols-[180px_1fr] sm:gap-5"><p className="text-xs font-bold text-[#17211e]">{String(index + 1).padStart(2, "0")} · {row.label}</p><p className="text-xs leading-5 text-[#6b7873]">{row.detail}</p></div>)}
           </div>
-          <div className="grid flex-1 items-center gap-8 py-10 lg:grid-cols-[.9fr_1.1fr]">
-            <div className="max-w-[460px]">
-              <div className="eyebrow mb-4 rise rise-delay">Regulated asset access</div>
-              <h1 className="display text-[clamp(2.6rem,5.8vw,5.5rem)] leading-[.92] tracking-[-.05em] text-[#111a22] rise rise-delay-2">
-                Asset listings for serious acquisition intent.
-              </h1>
-              <p className="mt-6 text-[15px] leading-7 text-[#485862] rise rise-delay-2">Buyer, Seller, and Manager workflows around financial assets, acquisition criteria, Smart Match, private messages, moderation, and audit visibility.</p>
-            </div>
-            <div className="market-panel hidden p-4 lg:block rise rise-delay-2" aria-hidden="true">
-              <div className="flex items-center justify-between border-b border-[#d6d0c4] pb-3"><p className="eyebrow">Marketplace preview</p><span className="deal-badge">Validated</span></div>
-              {[
-                ["Asset ID #000741", "UK EMI / Fintech", "€32.0M"],
-                ["Asset ID #000750", "Payments / UK", "£18.5M"],
-                ["Asset ID #000560", "Crypto / Switzerland", "CHF27.0M"],
-              ].map(([id, meta, price]) => <div key={id} className="grid grid-cols-[1fr_auto] gap-4 border-b border-[#d6d0c4] py-4 last:border-b-0"><div><p className="stat-label">{id}</p><p className="mt-2 text-sm font-bold text-[#111a22]">{meta}</p><p className="mt-1 text-xs text-[#737a78]">Country, license signal, status, match context</p></div><p className="text-xl font-extrabold text-[#111a22]">{price}</p></div>)}
-            </div>
-          </div>
-          <div className="hidden items-end justify-between border-t border-[#d6d0c4] pt-4 text-[10px] font-bold uppercase tracking-[.14em] text-[#737a78] lg:flex rise rise-delay-2">
-            <span>Private deal room · production prototype</span><span>Secure access</span>
-          </div>
-        </section>
-        <section className="relative flex items-center border-t border-[#d6d0c4] bg-[#111a22] px-6 py-12 text-[#f3f0e8] sm:px-10 lg:border-l lg:border-t-0 lg:px-12">
-          <div className="relative w-full max-w-[340px] rise">
-            <div className="mb-10"><p className="eyebrow text-[#cf8b65]">Reviewer access</p><h2 className="display mt-3 text-4xl tracking-[-.04em]">Enter the room.</h2><p className="mt-3 text-xs leading-5 text-white/45">Select a seeded demo identity or enter credentials manually.</p></div>
-            <LoginForm />
-            <p className="mt-10 border-t border-white/15 pt-5 text-[11px] leading-5 text-white/45">Role-based demo access is available for Buyer, Seller, and Manager review paths.</p>
-          </div>
-        </section>
-      </div>
-    </main>
-  );
+        </div>
+        <footer className="hidden flex-wrap items-center justify-between gap-2 border-t border-[#d8e1dd] pt-4 text-[9px] font-bold uppercase tracking-[.08em] text-[#77837e] sm:flex"><span>Seeded review environment</span><span>Buyer · Seller · Manager</span></footer>
+      </section>
+      <section className="flex items-center border-t border-[#d8e1dd] bg-[#101816] px-6 py-10 text-white sm:px-10 lg:border-l lg:border-t-0 lg:px-11">
+        <div className="w-full">
+          <p className="text-[10px] font-bold uppercase tracking-[.11em] text-[#8bc2ae]">Reviewer access</p>
+          <h2 className="mt-2 text-2xl font-semibold">Sign in to N5Deal</h2>
+          <p className="mt-2 text-xs leading-5 text-white/55">Use a seeded identity or your assigned credentials.</p>
+          <div className="mt-8"><LoginForm /></div>
+          <p className="mt-8 border-t border-white/15 pt-4 text-[11px] leading-5 text-white/45">Role permissions, session security and data access are enforced by the server.</p>
+        </div>
+      </section>
+    </div>
+  </main>;
 }

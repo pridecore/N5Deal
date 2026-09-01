@@ -7,47 +7,30 @@ import { labelize } from "@/lib/utils";
 export function MarketplaceFilters({ filters }: { filters: AssetQueryInput }) {
   const [pending, setPending] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const activeCount = [filters.search, filters.category, filters.country, filters.minPrice, filters.maxPrice, filters.businessStatus, filters.dealType].filter(Boolean).length;
 
-  return <form action="/marketplace" method="get" onSubmit={() => setPending(true)} data-open={mobileOpen ? "true" : "false"} className="market-filter market-panel p-4 xl:sticky xl:top-6 xl:shadow-none">
-    <div className="flex items-start justify-between gap-4 border-b border-[#d6d0c4] pb-3">
-      <FilterHeader />
-      <button type="button" aria-label={mobileOpen ? "Collapse filters" : "Expand filters"} aria-expanded={mobileOpen} onClick={() => setMobileOpen((open) => !open)} className="focus-ring text-lg text-[#a85834] xl:hidden">{mobileOpen ? "×" : "+"}</button>
-    </div>
-    <div className="filter-fields mt-4 grid gap-5 md:grid-cols-2 xl:grid-cols-1">
-      <FilterFields filters={filters} pending={pending} />
-      <FilterFooter />
-    </div>
-  </form>;
-}
-
-function FilterFields({ filters, pending }: { filters: AssetQueryInput; pending: boolean }) {
-  return <>
-    <label className="block md:col-span-2 xl:col-span-1"><span className="mb-2 block stat-label">Search the room</span><input name="search" defaultValue={filters.search ?? ""} placeholder="Find the perfect Asset..." className="focus-ring field-line" /></label>
-    <FilterSelect name="category" label="Category" value={filters.category} options={assetCategories} />
-    <label className="block"><span className="mb-2 block stat-label">Country</span><input name="country" defaultValue={filters.country ?? ""} placeholder="United Kingdom, Germany" className="focus-ring field-line" /></label>
-    <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-1">
-      <label className="block"><span className="mb-2 block stat-label">Price Range · Min</span><input name="minPrice" defaultValue={filters.minPrice ?? ""} inputMode="decimal" placeholder="0" className="focus-ring field-line" /></label>
-      <label className="block"><span className="mb-2 block stat-label">Price Range · Max</span><input name="maxPrice" defaultValue={filters.maxPrice ?? ""} inputMode="decimal" placeholder="No limit" className="focus-ring field-line" /></label>
-    </div>
-    <label className="block"><span className="mb-2 block stat-label">Business status</span><input name="businessStatus" defaultValue={filters.businessStatus ?? ""} placeholder="Trading or Growth" className="focus-ring field-line" /></label>
-    <FilterSelect name="dealType" label="Deal type" value={filters.dealType} options={dealTypes} />
-    <FilterSelect name="sort" label="Sort by" value={filters.sort} options={["newest", "oldest", "price-asc", "price-desc", "best-match"]} />
-    <button disabled={pending} className="focus-ring action-primary h-11 w-full px-5 text-[10px] font-bold uppercase tracking-[.14em] disabled:cursor-wait disabled:opacity-60">{pending ? "Searching..." : "Apply filters"}</button>
-    <a href="/marketplace" className="focus-ring text-center text-[10px] font-bold uppercase tracking-[.14em] text-[#a85834] xl:hidden">Reset all filters</a>
-  </>;
+  return <div>
+    <button type="button" aria-controls="marketplace-filter-panel" aria-expanded={mobileOpen} onClick={() => setMobileOpen(true)} className="focus-ring action-ghost flex h-11 w-full items-center justify-between px-4 text-xs font-semibold xl:hidden"><span>Filters {activeCount > 0 && `(${activeCount})`}</span><span aria-hidden="true">☷</span></button>
+    {mobileOpen && <button type="button" aria-label="Close filters" onClick={() => setMobileOpen(false)} className="fixed inset-0 z-40 bg-[#101816]/35 xl:hidden" />}
+    <form id="marketplace-filter-panel" action="/marketplace" method="get" onSubmit={() => setPending(true)} className={`${mobileOpen ? "fixed inset-x-0 bottom-0 z-50 block max-h-[88vh] overflow-y-auto rounded-t-[6px]" : "hidden"} market-panel p-5 xl:sticky xl:top-[92px] xl:block xl:max-h-[calc(100vh-116px)] xl:overflow-y-auto xl:shadow-none`}>
+      <div className="flex items-start justify-between gap-4 border-b border-[#d8e1dd] pb-4">
+        <div><p className="text-sm font-bold text-[#101816]">Filter opportunities</p><p className="mt-1 text-xs text-[#6b7873]">Narrow the active marketplace</p></div>
+        <div className="flex items-center gap-4"><a href="/marketplace" className="focus-ring text-[10px] font-bold uppercase tracking-[.08em] text-[#0d6b53]">Reset</a><button type="button" aria-label="Close filters" onClick={() => setMobileOpen(false)} className="focus-ring flex h-8 w-8 items-center justify-center border border-[#b9c7c1] text-lg xl:hidden">×</button></div>
+      </div>
+      <div className="mt-5 grid gap-5 md:grid-cols-2 xl:grid-cols-1">
+        <label className="block md:col-span-2 xl:col-span-1"><span className="mb-2 block stat-label">Search</span><input name="search" defaultValue={filters.search ?? ""} placeholder="Title, country or description" className="focus-ring field-line" /></label>
+        <FilterSelect name="category" label="Category" value={filters.category} options={assetCategories} />
+        <label className="block"><span className="mb-2 block stat-label">Country</span><input name="country" defaultValue={filters.country ?? ""} placeholder="e.g. United Kingdom" className="focus-ring field-line" /></label>
+        <fieldset className="grid gap-3 sm:grid-cols-2 xl:grid-cols-1"><legend className="mb-2 stat-label">Price range</legend><label><span className="sr-only">Minimum price</span><input name="minPrice" defaultValue={filters.minPrice ?? ""} inputMode="decimal" placeholder="Minimum" className="focus-ring field-line" /></label><label><span className="sr-only">Maximum price</span><input name="maxPrice" defaultValue={filters.maxPrice ?? ""} inputMode="decimal" placeholder="Maximum" className="focus-ring field-line" /></label></fieldset>
+        <label className="block"><span className="mb-2 block stat-label">Business status</span><input name="businessStatus" defaultValue={filters.businessStatus ?? ""} placeholder="e.g. Trading" className="focus-ring field-line" /></label>
+        <FilterSelect name="dealType" label="Deal type" value={filters.dealType} options={dealTypes} />
+        <FilterSelect name="sort" label="Sort by" value={filters.sort} options={["newest", "oldest", "price-asc", "price-desc", "best-match"]} />
+        <button disabled={pending} className="focus-ring action-primary h-11 w-full px-5 text-[10px] font-bold uppercase tracking-[.08em] disabled:cursor-wait disabled:opacity-60">{pending ? "Applying…" : "Apply filters"}</button>
+      </div>
+    </form>
+  </div>;
 }
 
 function FilterSelect({ name, label, value, options }: { name: string; label: string; value?: string; options: readonly string[] }) {
   return <label className="block"><span className="mb-2 block stat-label">{label}</span><select name={name} defaultValue={value ?? ""} className="focus-ring field-line"><option value="">All</option>{options.map((option) => <option key={option} value={option}>{labelize(option)}</option>)}</select></label>;
-}
-
-function FilterHeader() {
-  return <div className="flex flex-1 items-center justify-between gap-4">
-    <div><p className="eyebrow">Filters</p><p className="mt-1 text-xs leading-5 text-[#737a78]">Country, price, status, deal type</p></div>
-    <a href="/marketplace" className="focus-ring hidden text-[10px] font-bold uppercase tracking-[.14em] text-[#a85834] xl:inline">Reset</a>
-  </div>;
-}
-
-function FilterFooter() {
-  return <p className="mt-4 text-[11px] leading-5 text-[#737a78]">Filtered views can be shared with the review team.</p>;
 }

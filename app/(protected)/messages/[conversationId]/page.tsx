@@ -12,8 +12,16 @@ export default async function ConversationPage({ params }: { params: Promise<{ c
   try { conversation = await getConversation(conversationId, user.id); } catch { notFound(); }
   if (!conversation) notFound();
   const other = user.role === "BUYER" ? conversation.seller : conversation.buyer;
-  return <div className="noise min-h-screen"><div className="deal-shell max-w-[980px]">
-    <Link href="/messages" className="focus-ring text-[10px] font-bold uppercase tracking-[.14em] text-[#7a817f] hover:text-[#b7653b]">← Back to inbox</Link>
-    <section className="market-panel mt-8"><div className="border-b border-[#d9d4c9] p-5 sm:p-7"><p className="eyebrow">{conversation.asset?.title ?? "Direct conversation"}</p><h1 className="display mt-3 text-4xl tracking-[-.05em] text-[#172532]">{other.companyName}</h1><p className="mt-2 text-sm text-[#50606a]">Private platform thread. Contact details are intentionally not exposed.</p></div><div className="space-y-4 p-5 sm:p-7">{conversation.messages.length === 0 ? <p className="text-sm text-[#7a817f]">No messages yet.</p> : conversation.messages.map((message) => <div key={message.id} className={`max-w-[82%] border p-4 ${message.senderId === user.id ? "ml-auto border-[#172532] bg-[#172532] text-[#f4f1ea]" : "border-[#d9d4c9] bg-white/55 text-[#172532]"}`}><p className="whitespace-pre-wrap text-sm leading-6">{message.body}</p><p className="mt-3 text-[10px] uppercase tracking-[.12em] opacity-55">{new Date(message.createdAt).toLocaleString("en-US")}</p></div>)}</div><MessageComposer conversationId={conversation.id} /></section>
+
+  return <div className="min-h-screen"><div className="deal-shell max-w-[1040px]">
+    <Link href="/messages" className="focus-ring text-[10px] font-bold uppercase tracking-[.08em] text-[#6b7873] hover:text-[#0d6b53]">← Conversations</Link>
+    <section className="market-panel mt-5 overflow-hidden">
+      <header className="grid gap-4 border-b border-[#d8e1dd] bg-[#f8faf9] p-5 sm:grid-cols-[1fr_auto] sm:items-end"><div><p className="eyebrow">{conversation.asset?.title ?? "Direct buyer conversation"}</p><h1 className="mt-2 text-2xl font-semibold text-[#101816]">{other.companyName}</h1><p className="mt-2 text-xs text-[#6b7873]">Private participant thread · contact details are not exposed</p></div><span className="deal-badge status-live">Active thread</span></header>
+      <div className="divide-y divide-[#e1e7e4] bg-white">{conversation.messages.length === 0 ? <p className="p-6 text-sm text-[#6b7873]">No messages yet.</p> : conversation.messages.map((message) => {
+        const mine = message.senderId === user.id;
+        return <article key={message.id} className={`grid gap-3 p-5 sm:grid-cols-[130px_1fr] ${mine ? "bg-[#f3f8f6]" : "bg-white"}`}><div><p className={`text-xs font-bold ${mine ? "text-[#176548]" : "text-[#26332f]"}`}>{mine ? "You" : other.companyName}</p><p className="mt-1 text-[10px] leading-4 text-[#77837e]">{new Date(message.createdAt).toLocaleString("en-US")}</p></div><p className="whitespace-pre-wrap text-sm leading-6 text-[#40504b]">{message.body}</p></article>;
+      })}</div>
+      <MessageComposer conversationId={conversation.id} />
+    </section>
   </div></div>;
 }

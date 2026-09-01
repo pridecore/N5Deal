@@ -33,32 +33,32 @@ export default async function MarketplacePage({ searchParams }: { searchParams: 
   const filters = parseParams(await searchParams);
   const result = await getPublishedAssets(filters, user);
   const { pagination } = result;
-  return <div className="noise min-h-screen"><div className="fine-grid absolute inset-0 opacity-50" aria-hidden="true" /><div className="market-shell">
-    <div className="border-b border-[#d6d0c4] pb-5">
+  return <div className="min-h-screen"><div className="market-shell">
+    <div className="border-b border-[#d8e1dd] pb-5">
       <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
-        <div><p className="eyebrow rise">Asset Listings / regulated supply</p><h1 className="display compact-heading mt-2 max-w-[760px] text-[#111a22] rise rise-delay">Find the right regulated deal flow.</h1></div>
-        <div className="data-grid grid-cols-3 lg:min-w-[420px]">
-          <HeaderMetric label="Active assets" value={String(pagination.total)} />
-          <HeaderMetric label="Buyer role" value={user.role === "BUYER" ? "Smart Match" : "View only"} />
-          <HeaderMetric label="Review state" value="Validated" />
+        <div><p className="eyebrow rise">Marketplace / active supply</p><h1 className="display compact-heading mt-2 text-[#101816] rise rise-delay">Financial businesses and regulated asset opportunities</h1><p className="mt-3 max-w-[690px] text-sm leading-6 text-[#52615c]">Review seller-provided commercial, financial and jurisdiction data. Buyer accounts receive Smart Match context from their acquisition criteria.</p></div>
+        <div className="data-grid grid-cols-3 lg:min-w-[390px]">
+          <HeaderMetric label="Results" value={String(pagination.total)} />
+          <HeaderMetric label="Access" value={user.role === "BUYER" ? "Buyer" : labelize(user.role)} />
+          <HeaderMetric label="Sort" value={labelize(filters.sort)} />
         </div>
       </div>
-      <nav aria-label="Marketplace categories" className="mt-5 flex gap-2 overflow-x-auto pb-1">
-        <Link href={categoryHref(filters)} aria-current={!filters.category ? "page" : undefined} className={`focus-ring deal-badge shrink-0 ${!filters.category ? "status-live" : ""}`}>All ({pagination.total})</Link>
-        {assetCategories.filter((category) => category !== "OTHER").map((category) => <Link key={category} href={categoryHref(filters, category)} aria-current={filters.category === category ? "page" : undefined} className={`focus-ring deal-badge shrink-0 ${filters.category === category ? "status-live" : ""}`}>{labelize(category)}</Link>)}
+      <nav aria-label="Marketplace categories" className="mt-5 flex overflow-x-auto border border-[#d8e1dd] bg-white">
+        <Link href={categoryHref(filters)} aria-current={!filters.category ? "page" : undefined} className={`focus-ring shrink-0 border-r border-[#d8e1dd] px-4 py-2.5 text-xs font-semibold ${!filters.category ? "bg-[#084c3c] text-white" : "text-[#52615c] hover:bg-[#eef3f0]"}`}>All <span className="ml-1 opacity-65">{pagination.total}</span></Link>
+        {assetCategories.filter((category) => category !== "OTHER").map((category) => <Link key={category} href={categoryHref(filters, category)} aria-current={filters.category === category ? "page" : undefined} className={`focus-ring shrink-0 border-r border-[#d8e1dd] px-4 py-2.5 text-xs font-semibold last:border-0 ${filters.category === category ? "bg-[#084c3c] text-white" : "text-[#52615c] hover:bg-[#eef3f0]"}`}>{labelize(category)}</Link>)}
       </nav>
     </div>
-    <div className="mt-6 grid gap-6 xl:grid-cols-[286px_1fr] xl:items-start">
+    <div className="mt-5 grid gap-5 xl:grid-cols-[270px_1fr] xl:items-start">
       <MarketplaceFilters filters={filters} />
-      {result.items.length === 0 ? <section className="border-b border-[#d9d4c9] py-20 text-center"><p className="eyebrow">No matches</p><h2 className="display mt-4 text-4xl tracking-[-.04em]">The room is quiet.</h2><p className="mx-auto mt-4 max-w-[380px] text-sm leading-6 text-[#50606a]">Try widening your search or resetting the filters to see every published opportunity.</p><Link href="/marketplace" className="focus-ring mt-7 inline-block border-b border-[#b7653b] pb-2 text-[10px] font-bold uppercase tracking-[.14em] text-[#b7653b]">Reset filters ↗</Link></section> : <section aria-label="Marketplace listings">
-        <div className="section-kicker mb-4"><div><p className="stat-label">Newest Listings</p><p className="mt-1 text-xs text-[#737a78]">Structured M&A records with price, status, jurisdiction, and match signal.</p></div><p className="text-[11px] text-[#737a78]">Page {pagination.page} of {pagination.pageCount || 1}</p></div>
+      {result.items.length === 0 ? <section className="border border-[#d8e1dd] bg-white py-16 text-center"><p className="eyebrow">No matching assets</p><h2 className="mt-3 text-2xl font-semibold">Adjust the current criteria</h2><p className="mx-auto mt-3 max-w-[380px] text-sm leading-6 text-[#52615c]">Widen the price, country or category filters to return more published opportunities.</p><Link href="/marketplace" className="focus-ring action-ghost mt-6 inline-flex h-10 items-center px-4 text-[10px] font-bold uppercase tracking-[.08em]">Reset filters</Link></section> : <section aria-label="Marketplace listings">
+        <div className="section-kicker mb-3"><div><p className="text-sm font-bold text-[#101816]">Available opportunities</p><p className="mt-1 text-xs text-[#6b7873]">Seller-provided records with price, lifecycle status and match context.</p></div><p className="shrink-0 text-[11px] text-[#6b7873]">Page {pagination.page} of {pagination.pageCount || 1}</p></div>
         <div className="grid gap-3">{result.items.map((asset) => <AssetCard key={asset.id} asset={asset as unknown as AssetCardData} />)}</div>
-        <div className="mt-8 flex items-center justify-between border-t border-[#d9d4c9] pt-5"><p className="text-[11px] text-[#7a817f]">{pagination.total} matching records</p><div className="flex gap-2">{pagination.page > 1 && <Link href={pageHref(filters, pagination.page - 1)} className="focus-ring action-ghost px-4 py-2 text-[10px] font-bold uppercase tracking-[.12em]">← Previous</Link>}{pagination.page < pagination.pageCount && <Link href={pageHref(filters, pagination.page + 1)} className="focus-ring action-primary px-4 py-2 text-[10px] font-bold uppercase tracking-[.12em]">Next →</Link>}</div></div>
+        <div className="mt-6 flex items-center justify-between border-t border-[#d8e1dd] pt-4"><p className="text-[11px] text-[#6b7873]">{pagination.total} matching records</p><div className="flex gap-2">{pagination.page > 1 && <Link href={pageHref(filters, pagination.page - 1)} className="focus-ring action-ghost px-4 py-2 text-[10px] font-bold uppercase tracking-[.08em]">← Previous</Link>}{pagination.page < pagination.pageCount && <Link href={pageHref(filters, pagination.page + 1)} className="focus-ring action-primary px-4 py-2 text-[10px] font-bold uppercase tracking-[.08em]">Next →</Link>}</div></div>
       </section>}
     </div>
   </div></div>;
 }
 
 function HeaderMetric({ label, value }: { label: string; value: string }) {
-  return <div className="data-cell"><p className="stat-label">{label}</p><p className="mt-1 text-sm font-extrabold text-[#111a22]">{value}</p></div>;
+  return <div className="data-cell"><p className="stat-label">{label}</p><p className="mt-1 text-sm font-bold text-[#101816]">{value}</p></div>;
 }

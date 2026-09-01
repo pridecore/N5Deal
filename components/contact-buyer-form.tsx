@@ -20,8 +20,8 @@ export function ContactBuyerForm({ buyerId }: { buyerId: string }) {
   }
 
   return <form onSubmit={submit} className="space-y-3">
-    <label className="block"><span className="mb-2 block text-[10px] font-bold uppercase tracking-[.14em] text-[#7a817f]">Message buyer</span><textarea value={message} onChange={(event) => setMessage(event.target.value)} rows={4} maxLength={2000} className="focus-ring w-full resize-none border border-[#d9d4c9] bg-[#f8f6f1] p-3 text-sm outline-none focus:border-[#b7653b]" /></label>
-    {error && <p className="text-xs text-[#b7653b]">{error}</p>}
-    <button type="submit" disabled={pending} className="focus-ring flex h-12 w-full items-center justify-between bg-[#172532] px-4 text-[10px] font-bold uppercase tracking-[.13em] text-[#f4f1ea] transition-colors hover:bg-[#b7653b] disabled:opacity-60">{pending ? "Creating thread..." : "Contact buyer"} <span className="text-base" aria-hidden="true">↗</span></button>
+    <label className="block"><span className="mb-2 block stat-label">Private message</span><textarea value={message} onChange={(event) => setMessage(event.target.value)} rows={4} maxLength={2000} className="focus-ring field-line resize-y bg-white leading-5" /></label>
+    {error && <p role="alert" className="text-xs text-[#a53d35]">{error}</p>}
+    <button type="submit" disabled={pending} className="focus-ring action-primary flex h-11 w-full items-center justify-between px-4 text-[10px] font-bold uppercase tracking-[.08em] disabled:opacity-60">{pending ? "Creating thread…" : "Contact buyer"} <span aria-hidden="true">→</span></button>
   </form>;
 }
