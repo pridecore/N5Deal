@@ -81,6 +81,9 @@ textarea.field-line { height: auto; min-height: 8.5rem; }
   font-weight: 700;
 }
 .skip-link:focus { transform: translateY(0); }
+.app-sidebar { pointer-events: none; transform: translateX(-100%); visibility: hidden; }
+.app-sidebar[data-open="true"] { pointer-events: auto; transform: translateX(0); visibility: visible; }
+.market-filter[data-open="false"] .filter-fields { display: none; }
 
 @media (min-width: 640px) {
   .market-shell { padding: 2.25rem 2rem; }
@@ -90,6 +93,11 @@ textarea.field-line { height: auto; min-height: 8.5rem; }
 @media (min-width: 1024px) {
   .market-shell { padding: 3rem 3rem; }
   .deal-shell { padding: 3rem 3rem; }
+  .app-sidebar { pointer-events: auto; transform: translateX(0); visibility: visible; }
+}
+
+@media (min-width: 1280px) {
+  .market-filter[data-open="false"] .filter-fields { display: grid; }
 }
 
 @media (prefers-reduced-motion: no-preference) {

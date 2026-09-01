@@ -48,7 +48,7 @@ export default async function MarketplacePage({ searchParams }: { searchParams: 
         {assetCategories.filter((category) => category !== "OTHER").map((category) => <Link key={category} href={categoryHref(filters, category)} aria-current={filters.category === category ? "page" : undefined} className={`focus-ring deal-badge shrink-0 ${filters.category === category ? "status-live" : ""}`}>{labelize(category)}</Link>)}
       </nav>
     </div>
-    <div className="mt-6 grid gap-6 lg:grid-cols-[286px_1fr] lg:items-start">
+    <div className="mt-6 grid gap-6 xl:grid-cols-[286px_1fr] xl:items-start">
       <MarketplaceFilters filters={filters} />
       {result.items.length === 0 ? <section className="border-b border-[#d9d4c9] py-20 text-center"><p className="eyebrow">No matches</p><h2 className="display mt-4 text-4xl tracking-[-.04em]">The room is quiet.</h2><p className="mx-auto mt-4 max-w-[380px] text-sm leading-6 text-[#50606a]">Try widening your search or resetting the filters to see every published opportunity.</p><Link href="/marketplace" className="focus-ring mt-7 inline-block border-b border-[#b7653b] pb-2 text-[10px] font-bold uppercase tracking-[.14em] text-[#b7653b]">Reset filters ↗</Link></section> : <section aria-label="Marketplace listings">
         <div className="section-kicker mb-4"><div><p className="stat-label">Newest Listings</p><p className="mt-1 text-xs text-[#737a78]">Structured M&A records with price, status, jurisdiction, and match signal.</p></div><p className="text-[11px] text-[#737a78]">Page {pagination.page} of {pagination.pageCount || 1}</p></div>

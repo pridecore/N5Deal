@@ -41,9 +41,11 @@ export function AssetCard({ asset, management = false }: { asset: AssetCardData;
         {asset.match.reasons[0] && <p className="mt-1 text-xs leading-5 text-[#485862]">{asset.match.reasons[0]}</p>}
       </div>}
       <p className="mt-5 line-clamp-3 text-sm leading-6 text-[#50606a]">{asset.description}</p>
-      <div className="data-grid mt-5 grid-cols-2">
+      <div className="data-grid mt-5 grid-cols-2 md:grid-cols-4">
         <Metric label="Revenue" value={formatMoney(asset.revenue, asset.currency)} />
         <Metric label="EBITDA" value={formatMoney(asset.ebitda, asset.currency)} />
+        <Metric label="Jurisdiction" value={asset.country} />
+        <Metric label="Deal structure" value={labelize(asset.dealType)} />
       </div>
     </div>
     <Link href={management ? `/seller/assets/${asset.id}/edit` : `/assets/${asset.slug}`} className="focus-ring flex items-center justify-between border-t border-[#d6d0c4] px-4 py-3 text-[10px] font-bold uppercase tracking-[.14em] text-[#485862] transition-colors hover:bg-[#111a22] hover:text-[#f3f0e8]"><span>{management ? "Manage asset" : "View opportunity"}</span><span className="transition-transform group-hover:translate-x-1">↗</span></Link>

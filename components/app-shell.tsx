@@ -33,7 +33,8 @@ export function AppShell({ email, role, children }: Props) {
     <header className="flex h-[72px] items-center justify-between border-b border-[#d9d4c9] bg-[#f4f1ea] px-5 sm:px-8 lg:hidden">
       <Logo /><button type="button" aria-label="Toggle navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)} className="focus-ring text-2xl text-[#172532]">{menuOpen ? "×" : "☰"}</button>
     </header>
-    <aside className={`${menuOpen ? "translate-x-0" : "-translate-x-full"} fixed inset-y-0 left-0 z-20 flex w-[280px] flex-col border-r border-[#d9d4c9] bg-[#172532] text-[#f4f1ea] transition-transform lg:translate-x-0`}>
+    {menuOpen && <button type="button" aria-label="Close navigation" className="fixed inset-0 z-10 bg-[#111a22]/35 lg:hidden" onClick={() => setMenuOpen(false)} />}
+    <aside data-open={menuOpen ? "true" : "false"} className="app-sidebar fixed inset-y-0 left-0 z-20 flex w-[280px] flex-col border-r border-[#d9d4c9] bg-[#172532] text-[#f4f1ea] transition-transform">
       <div className="flex h-[88px] items-center border-b border-white/10 px-8"><Logo inverse /></div>
       <div className="flex-1 px-4 py-8"><p className="mb-4 px-4 text-[10px] font-bold uppercase tracking-[.17em] text-white/35">Workspace</p><nav className="space-y-1">{navigation.map((item) => {
         const active = pathname === item.path || (item.path === "/marketplace" && pathname.startsWith("/assets")) || (item.path !== "/dashboard" && pathname.startsWith(`${item.path}/`));
