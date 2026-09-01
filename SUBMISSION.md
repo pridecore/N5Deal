@@ -2,6 +2,7 @@
 
 - Production URL: https://n5deal-marketplace-blond.vercel.app
 - GitHub repository: https://github.com/pridecore/N5Deal
+- Source submission status: PASS, `main` pushed to the private GitHub repository
 - Deployment status: PASS, Vercel production deployment is live
 - Database status: PASS, existing Neon PostgreSQL database verified
 - Migration status: PASS, `0001_init` and `0002_phase3_operations` are applied
