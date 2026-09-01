@@ -1,0 +1,258 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  BUYER
+  SELLER
+  MANAGER
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+}
+
+enum AssetStatus {
+  DRAFT
+  PUBLISHED
+  SUSPENDED
+  ARCHIVED
+}
+
+enum AssetCategory {
+  BANK
+  FINTECH
+  PAYMENT
+  EMI
+  CRYPTO
+  OTHER
+}
+
+enum DealType {
+  FULL_ACQUISITION
+  MAJORITY_STAKE
+  MINORITY_STAKE
+  ASSET_SALE
+  MERGER
+}
+
+enum ContactRequestStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+  CLOSED
+}
+
+enum ConversationStatus {
+  ACTIVE
+  CLOSED
+}
+
+enum AuditAction {
+  LOGIN
+  ASSET_CREATED
+  ASSET_EDITED
+  ASSET_PUBLISHED
+  ASSET_ARCHIVED
+  USER_SUSPENDED
+  USER_RESTORED
+  ASSET_SUSPENDED
+  ASSET_RESTORED
+  CONVERSATION_CREATED
+  MESSAGE_SENT
+}
+
+model User {
+  id               String           @id @default(cuid())
+  email            String           @unique
+  passwordHash     String
+  role             UserRole
+  status           UserStatus       @default(ACTIVE)
+  buyerProfile     BuyerProfile?
+  sellerProfile    SellerProfile?
+  sessions         Session[]
+  sentContacts     ContactRequest[] @relation("BuyerContacts")
+  receivedContacts ContactRequest[] @relation("SellerContacts")
+  buyerThreads     Conversation[]   @relation("BuyerConversations")
+  sellerThreads    Conversation[]   @relation("SellerConversations")
+  sentMessages     Message[]        @relation("SentMessages")
+  auditEvents      AuditEvent[]     @relation("ActorAuditEvents")
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  @@index([role, status])
+  @@index([status])
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model BuyerProfile {
+  id               String          @id @default(cuid())
+  userId           String          @unique
+  user             User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fullName         String
+  companyName      String
+  investmentMin    Decimal?        @db.Decimal(18, 2)
+  investmentMax    Decimal?        @db.Decimal(18, 2)
+  revenueMin       Decimal?        @db.Decimal(18, 2)
+  revenueMax       Decimal?        @db.Decimal(18, 2)
+  ebitdaMin        Decimal?        @db.Decimal(18, 2)
+  ebitdaMax        Decimal?        @db.Decimal(18, 2)
+  investmentThesis String
+  categories       BuyerCategory[]
+  countries        BuyerCountry[]
+  dealTypes        BuyerDealType[]
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+}
+
+model BuyerCategory {
+  buyerId  String
+  category AssetCategory
+  buyer    BuyerProfile  @relation(fields: [buyerId], references: [id], onDelete: Cascade)
+
+  @@id([buyerId, category])
+  @@index([category])
+}
+
+model BuyerCountry {
+  buyerId String
+  country String
+  buyer   BuyerProfile @relation(fields: [buyerId], references: [id], onDelete: Cascade)
+
+  @@id([buyerId, country])
+  @@index([country])
+}
+
+model BuyerDealType {
+  buyerId  String
+  dealType DealType
+  buyer    BuyerProfile @relation(fields: [buyerId], references: [id], onDelete: Cascade)
+
+  @@id([buyerId, dealType])
+  @@index([dealType])
+}
+
+model SellerProfile {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fullName    String
+  companyName String
+  bio         String
+  assets      Asset[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Asset {
+  id             String           @id @default(cuid())
+  slug           String           @unique
+  title          String
+  category       AssetCategory
+  country        String
+  description    String
+  askingPrice    Decimal          @db.Decimal(18, 2)
+  currency       String           @db.Char(3)
+  revenue        Decimal?         @db.Decimal(18, 2)
+  ebitda         Decimal?         @db.Decimal(18, 2)
+  dealType       DealType
+  businessStatus String
+  status         AssetStatus      @default(DRAFT)
+  previousStatus AssetStatus?
+  sellerId       String
+  seller         SellerProfile    @relation(fields: [sellerId], references: [id], onDelete: Restrict)
+  contacts       ContactRequest[]
+  conversations  Conversation[]
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([status, category, country])
+  @@index([sellerId, status])
+  @@index([askingPrice])
+  @@index([createdAt])
+  @@index([status, createdAt])
+}
+
+model ContactRequest {
+  id        String               @id @default(cuid())
+  buyerId   String
+  sellerId  String
+  assetId   String?
+  message   String
+  status    ContactRequestStatus @default(PENDING)
+  buyer     User                 @relation("BuyerContacts", fields: [buyerId], references: [id], onDelete: Restrict)
+  seller    User                 @relation("SellerContacts", fields: [sellerId], references: [id], onDelete: Restrict)
+  asset     Asset?               @relation(fields: [assetId], references: [id], onDelete: SetNull)
+  createdAt DateTime             @default(now())
+  updatedAt DateTime             @updatedAt
+
+  @@index([buyerId, status])
+  @@index([sellerId, status])
+  @@index([assetId])
+}
+
+model Conversation {
+  id        String             @id @default(cuid())
+  buyerId   String
+  sellerId  String
+  assetId   String?
+  status    ConversationStatus @default(ACTIVE)
+  buyer     User               @relation("BuyerConversations", fields: [buyerId], references: [id], onDelete: Restrict)
+  seller    User               @relation("SellerConversations", fields: [sellerId], references: [id], onDelete: Restrict)
+  asset     Asset?             @relation(fields: [assetId], references: [id], onDelete: SetNull)
+  messages  Message[]
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+
+  @@unique([buyerId, sellerId, assetId])
+  @@index([buyerId, updatedAt])
+  @@index([sellerId, updatedAt])
+  @@index([assetId, updatedAt])
+  @@index([updatedAt])
+}
+
+model Message {
+  id             String       @id @default(cuid())
+  conversationId String
+  senderId       String
+  body           String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender         User         @relation("SentMessages", fields: [senderId], references: [id], onDelete: Restrict)
+  createdAt      DateTime     @default(now())
+
+  @@index([conversationId, createdAt])
+  @@index([senderId, createdAt])
+}
+
+model AuditEvent {
+  id          String      @id @default(cuid())
+  actorUserId String?
+  actor       User?       @relation("ActorAuditEvents", fields: [actorUserId], references: [id], onDelete: SetNull)
+  action      AuditAction
+  entityType  String
+  entityId    String
+  metadata    Json?
+  createdAt   DateTime    @default(now())
+
+  @@index([actorUserId, createdAt])
+  @@index([action, createdAt])
+  @@index([entityType, entityId])
+  @@index([createdAt])
+}

@@ -1,0 +1,1 @@
+export default function BuyerProfileLoading() { return <div className="min-h-screen animate-pulse bg-[#f4f1ea] px-5 py-12 sm:px-8 lg:px-14"><div className="h-3 w-32 bg-[#d9d4c9]" /><div className="mt-6 h-24 w-[min(500px,80vw)] bg-[#e8e2d8]" /><div className="mt-10 h-[520px] max-w-[900px] bg-[#e8e2d8]/40" /></div>; }

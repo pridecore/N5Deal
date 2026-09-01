@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+:root {
+  --paper: #f4f1ea;
+  --paper-deep: #e8e2d8;
+  --surface: #fbfaf6;
+  --surface-muted: #eee8dc;
+  --ink: #172532;
+  --ink-soft: #50606a;
+  --ink-muted: #7a817f;
+  --line: #d9d4c9;
+  --line-strong: #bab8ae;
+  --copper: #b7653b;
+  --copper-light: #d49a79;
+  --mint: #d7e3dc;
+  --success: #4f725f;
+  --success-bg: #edf4ef;
+  --radius-card: 2px;
+  --shadow-market: 0 18px 55px rgba(23, 37, 50, .07);
+}
+
+* { box-sizing: border-box; }
+html { background: var(--paper); }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+button, input, textarea, select { font: inherit; }
+
+.display { font-family: Georgia, "Times New Roman", serif; }
+.eyebrow { color: var(--copper); font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+.market-shell { position: relative; margin-inline: auto; width: 100%; max-width: 1320px; padding: 2rem 1.25rem; }
+.deal-shell { position: relative; margin-inline: auto; width: 100%; max-width: 1180px; padding: 2rem 1.25rem; }
+.compact-heading { font-size: clamp(2.35rem, 4.6vw, 4.5rem); line-height: .92; letter-spacing: -.055em; }
+.market-panel { border: 1px solid var(--line); background: rgba(251, 250, 246, .78); box-shadow: var(--shadow-market); }
+.market-rule { border-color: var(--line); }
+.field-line { height: 2.75rem; width: 100%; border: 0; border-bottom: 1px solid var(--line-strong); background: transparent; color: var(--ink); font-size: .875rem; outline: none; }
+.field-line::placeholder { color: #9a9d96; }
+.field-line:focus { border-color: var(--copper); }
+.field-compact { width: auto; min-width: 10.625rem; }
+textarea.field-line { height: auto; min-height: 8.5rem; }
+.action-primary { background: var(--ink); color: var(--paper); transition: background-color .18s ease, color .18s ease, border-color .18s ease; }
+.action-primary:hover { background: var(--copper); }
+.action-ghost { border: 1px solid var(--line); color: var(--ink-soft); transition: border-color .18s ease, color .18s ease, background-color .18s ease; }
+.action-ghost:hover { border-color: var(--copper); color: var(--copper); background: rgba(183, 101, 59, .06); }
+.deal-badge { display: inline-flex; align-items: center; border: 1px solid var(--line); background: rgba(251, 250, 246, .72); padding: .35rem .55rem; color: var(--ink-soft); font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.status-live { border-color: rgba(79, 114, 95, .36); background: var(--success-bg); color: var(--success); }
+.status-muted { color: #8b7569; }
+.stat-label { color: var(--ink-muted); font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.stat-value { color: var(--ink); font-weight: 700; }
+.fine-grid {
+  background-image: linear-gradient(to right, rgba(23,37,50,.035) 1px, transparent 1px), linear-gradient(to bottom, rgba(23,37,50,.035) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+.noise { position: relative; }
+.noise::after { content: ""; pointer-events: none; position: absolute; inset: 0; opacity: .16; mix-blend-mode: multiply; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.14'/%3E%3C/svg%3E"); }
+.focus-ring:focus-visible { outline: 3px solid var(--copper-light); outline-offset: 3px; }
+.skip-link {
+  position: fixed;
+  left: 1rem;
+  top: 1rem;
+  z-index: 50;
+  transform: translateY(-140%);
+  background: var(--ink);
+  color: var(--paper);
+  padding: .75rem 1rem;
+  font-size: 12px;
+  font-weight: 700;
+}
+.skip-link:focus { transform: translateY(0); }
+
+@media (min-width: 640px) {
+  .market-shell { padding: 3rem 2rem; }
+  .deal-shell { padding: 3rem 2rem; }
+}
+
+@media (min-width: 1024px) {
+  .market-shell { padding: 4rem 3.5rem; }
+  .deal-shell { padding: 4rem 3.5rem; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .rise { animation: rise .7s cubic-bezier(.2,.8,.2,1) both; }
+  .rise-delay { animation-delay: .12s; }
+  .rise-delay-2 { animation-delay: .22s; }
+  @keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+}

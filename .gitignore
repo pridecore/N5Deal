@@ -1,0 +1,17 @@
+node_modules
+.next
+out
+output
+.env
+.env.local
+.vercel
+coverage
+playwright-report
+test-results
+.playwright-cli
+.manual-qa.mjs
+*.log
+*.tsbuildinfo
+.env*
+!.env.example
+.DS_Store
