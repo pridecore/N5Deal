@@ -122,6 +122,106 @@ textarea.field-line { height: auto; min-height: 8.5rem; }
   background: var(--accent);
   color: #fff !important;
 }
+.login-market-scene {
+  isolation: isolate;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.94), rgba(255,255,255,.86)),
+    radial-gradient(circle at 78% 26%, rgba(13,107,83,.13), transparent 34%),
+    linear-gradient(135deg, #f8faf8 0%, #edf3ef 100%);
+}
+.deal-room-backdrop {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  perspective: 900px;
+}
+.deal-room-backdrop::before {
+  content: "";
+  position: absolute;
+  inset: -18%;
+  opacity: .48;
+  background:
+    linear-gradient(115deg, transparent 0 34%, rgba(8,76,60,.16) 34% 35%, transparent 35% 100%),
+    repeating-linear-gradient(90deg, rgba(16,24,22,.07) 0 1px, transparent 1px 74px),
+    repeating-linear-gradient(0deg, rgba(16,24,22,.05) 0 1px, transparent 1px 58px);
+  transform: rotate(-2deg) translate3d(0, 0, -40px);
+}
+.deal-depth-plane {
+  position: absolute;
+  right: clamp(-4rem, -3vw, -1rem);
+  border: 1px solid rgba(13,107,83,.18);
+  background: rgba(255,255,255,.6);
+  box-shadow: 0 24px 48px rgba(16,24,22,.08);
+  transform-style: preserve-3d;
+}
+.deal-depth-plane-a {
+  top: 13%;
+  width: min(46vw, 360px);
+  height: 210px;
+  transform: rotateY(-24deg) rotateX(8deg) translateZ(24px);
+}
+.deal-depth-plane-b {
+  bottom: 12%;
+  width: min(42vw, 320px);
+  height: 150px;
+  transform: rotateY(-30deg) rotateX(10deg) translate3d(18px, 0, -26px);
+}
+.deal-depth-ledger {
+  position: absolute;
+  right: 7%;
+  top: 24%;
+  display: grid;
+  width: min(36vw, 280px);
+  gap: 10px;
+  transform: rotateY(-22deg) rotateX(6deg);
+}
+.deal-depth-ledger span {
+  display: block;
+  height: 34px;
+  border-left: 3px solid rgba(8,76,60,.78);
+  background: linear-gradient(90deg, rgba(8,76,60,.12), rgba(255,255,255,.42));
+}
+.market-hero-depth {
+  position: relative;
+  isolation: isolate;
+}
+.market-hero-depth::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: -1.5rem 0 auto auto;
+  z-index: -1;
+  width: min(42vw, 520px);
+  height: 190px;
+  opacity: .72;
+  background:
+    linear-gradient(115deg, rgba(8,76,60,.11), transparent 62%),
+    repeating-linear-gradient(90deg, rgba(13,107,83,.11) 0 1px, transparent 1px 46px);
+  transform: skewX(-10deg);
+}
+.market-depth-card {
+  transform: perspective(900px) rotateY(-3deg);
+  transform-origin: right center;
+}
+.market-depth-bars {
+  display: grid;
+  gap: 6px;
+  border: 1px solid var(--line);
+  border-top: 0;
+  background: rgba(255,255,255,.72);
+  padding: .65rem;
+}
+.market-depth-bars span {
+  display: block;
+  height: 5px;
+  background: linear-gradient(90deg, var(--accent-strong), rgba(13,107,83,.18));
+  transform-origin: left center;
+}
+.market-depth-bars .bar-a { width: 72%; }
+.market-depth-bars .bar-b { width: 48%; }
+.market-depth-bars .bar-c { width: 86%; }
 .fine-grid { display: none; }
 .noise { position: relative; }
 .noise::after { display: none; }
@@ -148,5 +248,23 @@ textarea.field-line { height: auto; min-height: 8.5rem; }
   .rise { animation: rise .38s cubic-bezier(.2,.8,.2,1) both; }
   .rise-delay { animation-delay: .05s; }
   .rise-delay-2 { animation-delay: .09s; }
+  .deal-room-backdrop::before { animation: slow-drift 18s ease-in-out infinite alternate; }
+  .deal-depth-plane-a { animation: market-float-a 12s ease-in-out infinite alternate; }
+  .deal-depth-plane-b { animation: market-float-b 14s ease-in-out infinite alternate; }
+  .deal-depth-ledger span { animation: ledger-pulse 3.2s ease-in-out infinite; }
+  .deal-depth-ledger span:nth-child(2) { animation-delay: .4s; }
+  .deal-depth-ledger span:nth-child(3) { animation-delay: .8s; }
+  .market-depth-bars span { animation: ledger-pulse 3.6s ease-in-out infinite; }
   @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes slow-drift { from { transform: rotate(-2deg) translate3d(-10px, -4px, -40px); } to { transform: rotate(-2deg) translate3d(14px, 8px, -40px); } }
+  @keyframes market-float-a { from { transform: rotateY(-24deg) rotateX(8deg) translate3d(0, 0, 24px); } to { transform: rotateY(-20deg) rotateX(7deg) translate3d(-8px, 7px, 32px); } }
+  @keyframes market-float-b { from { transform: rotateY(-30deg) rotateX(10deg) translate3d(18px, 0, -26px); } to { transform: rotateY(-26deg) rotateX(8deg) translate3d(8px, -6px, -18px); } }
+  @keyframes ledger-pulse { 0%, 100% { opacity: .54; transform: scaleX(.92); } 45% { opacity: 1; transform: scaleX(1); } }
+}
+
+@media (max-width: 767px) {
+  .deal-room-backdrop { opacity: .45; }
+  .deal-depth-plane-a, .deal-depth-plane-b, .deal-depth-ledger { right: -7rem; }
+  .market-depth-card { transform: none; }
+  .market-hero-depth::after { display: none; }
 }

@@ -34,13 +34,20 @@ export default async function MarketplacePage({ searchParams }: { searchParams: 
   const result = await getPublishedAssets(filters, user);
   const { pagination } = result;
   return <div className="min-h-screen"><div className="market-shell">
-    <div className="border-b border-[#d8e1dd] pb-5">
+    <div className="market-hero-depth border-b border-[#d8e1dd] pb-5">
       <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
         <div><p className="eyebrow rise">Marketplace / active supply</p><h1 className="display compact-heading mt-2 text-[#101816] rise rise-delay">Financial businesses and regulated asset opportunities</h1><p className="mt-3 max-w-[690px] text-sm leading-6 text-[#52615c]">Review seller-provided commercial, financial and jurisdiction data. Buyer accounts receive Smart Match context from their acquisition criteria.</p></div>
-        <div className="data-grid grid-cols-3 lg:min-w-[390px]">
-          <HeaderMetric label="Results" value={String(pagination.total)} />
-          <HeaderMetric label="Access" value={user.role === "BUYER" ? "Buyer" : labelize(user.role)} />
-          <HeaderMetric label="Sort" value={labelize(filters.sort)} />
+        <div className="market-depth-card lg:min-w-[430px]" aria-label="Marketplace activity summary">
+          <div className="data-grid grid-cols-3">
+            <HeaderMetric label="Results" value={String(pagination.total)} />
+            <HeaderMetric label="Access" value={user.role === "BUYER" ? "Buyer" : labelize(user.role)} />
+            <HeaderMetric label="Sort" value={labelize(filters.sort)} />
+          </div>
+          <div className="market-depth-bars" aria-hidden="true">
+            <span className="bar-a" />
+            <span className="bar-b" />
+            <span className="bar-c" />
+          </div>
         </div>
       </div>
       <nav aria-label="Marketplace categories" className="mt-5 flex overflow-x-auto border border-[#d8e1dd] bg-white">
